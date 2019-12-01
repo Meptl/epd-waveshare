@@ -138,7 +138,7 @@ where
     }
 
     /// Checks if device is still busy
-    ///  
+    ///
     /// This is normally handled by the more complicated commands themselves,
     /// but in the case you send data and commands directly you might need to check
     /// if the device is still busy

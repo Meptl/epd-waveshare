@@ -79,6 +79,9 @@ pub mod epd2in9;
 #[cfg(any(feature = "epd1in54", feature = "epd2in9"))]
 pub(crate) mod type_a;
 
+#[cfg(feature = "gdew0213i5f")]
+pub mod gdew0213i5f;
+
 pub mod prelude {
     pub use crate::color::Color;
     pub use crate::traits::{RefreshLUT, WaveshareDisplay};
