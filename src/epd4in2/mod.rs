@@ -48,10 +48,9 @@
 
 use embedded_hal::{
     blocking::{delay::*, spi::Write},
-    digital::*,
 };
 
-use crate::interface::DisplayInterface;
+use crate::interface::{DisplayInterface, InputPin, OutputPin};
 use crate::traits::{InternalWiAdditions, RefreshLUT, WaveshareDisplay};
 
 //The Lookup Tables for the Display

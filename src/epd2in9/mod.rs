@@ -42,7 +42,6 @@ const IS_BUSY_LOW: bool = false;
 
 use embedded_hal::{
     blocking::{delay::*, spi::Write},
-    digital::*,
 };
 
 use crate::type_a::{
@@ -54,7 +53,7 @@ use crate::color::Color;
 
 use crate::traits::*;
 
-use crate::interface::DisplayInterface;
+use crate::interface::{DisplayInterface, InputPin, OutputPin};
 
 #[cfg(feature = "graphics")]
 mod graphics;

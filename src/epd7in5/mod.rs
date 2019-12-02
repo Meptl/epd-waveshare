@@ -8,11 +8,10 @@
 
 use embedded_hal::{
     blocking::{delay::*, spi::Write},
-    digital::v1::{InputPin, OutputPin},
 };
 
 use crate::color::Color;
-use crate::interface::DisplayInterface;
+use crate::interface::{DisplayInterface, InputPin, OutputPin};
 use crate::traits::{InternalWiAdditions, RefreshLUT, WaveshareDisplay};
 
 pub(crate) mod command;

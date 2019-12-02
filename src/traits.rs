@@ -2,8 +2,9 @@ use crate::color::Color;
 use core::marker::Sized;
 use embedded_hal::{
     blocking::{delay::*, spi::Write},
-    digital::*,
 };
+
+use crate::interface::{InputPin, OutputPin};
 
 /// All commands need to have this trait which gives the address of the command
 /// which needs to be send via SPI with activated CommandsPin (Data/Command Pin in CommandMode)

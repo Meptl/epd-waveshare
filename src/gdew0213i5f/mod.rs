@@ -44,14 +44,13 @@ const IS_BUSY_LOW: bool = false;
 
 use embedded_hal::{
     blocking::{delay::*, spi::Write},
-    digital::v2::{InputPin, OutputPin},
 };
 
 use crate::color::Color;
 
 use crate::traits::*;
 
-use crate::interface::DisplayInterface;
+use crate::interface::{InputPin, OutputPin, DisplayInterface};
 
 mod command;
 use command::Command;
@@ -166,7 +165,7 @@ where
     }
 
     fn update_frame(&mut self, spi: &mut SPI, buffer: &[u8]) -> Result<(), SPI::Error> {
-        self.set_lut(spi, Some(RefreshLUT::FULL));
+        self.set_lut(spi, Some(RefreshLUT::FULL))?;
         self.interface.cmd(spi, Command::DISPLAY_START_TRANSMISSION_1)?;
         self.interface.data_x_times(spi, self.background_color.get_byte_value(), WIDTH / 8 * HEIGHT)?;
         self.interface.cmd_with_data(spi, Command::DISPLAY_START_TRANSMISSION_2, buffer)?;
@@ -183,7 +182,7 @@ where
         width: u32,
         height: u32,
     ) -> Result<(), SPI::Error> {
-        self.set_lut(spi, Some(RefreshLUT::QUICK));
+        self.set_lut(spi, Some(RefreshLUT::QUICK))?;
         self.interface.cmd(spi, Command::PARTIAL_IN)?;
         // Screen height is 16 bits whilst width is 8 bits. Since the max height is 212, the top 8
         // bits of height should always be 0x00. But just to be formally correct, lets do the all
