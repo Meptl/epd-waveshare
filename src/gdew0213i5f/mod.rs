@@ -98,10 +98,6 @@ where
         self.interface.cmd_with_data(spi, Command::PLL_CONTROL, &[0x3a])?;
         self.interface.cmd_with_data(spi, Command::RESOLUTION_SETTING, &[WIDTH as u8, (HEIGHT >> 8) as u8, HEIGHT as u8])?;
 
-        self.interface.cmd_with_data(spi, Command::VCM_DC_SETTING, &[0x08])?;
-        // WBmode:VBDF 17|D7 VBDW 97 VBDB 57   WBRmode:VBDF F7 VBDW 77 VBDB 37  VBDR B7
-        self.interface.cmd_with_data(spi, Command::VCOM_AND_DATA_INTERVAL_SETTING, &[0x97])?;
-
         Ok(())
     }
 
@@ -201,27 +197,28 @@ where
             ]
         )?;
         self.interface.cmd_with_data(spi, Command::DISPLAY_START_TRANSMISSION_2, buffer)?;
-
-        self.interface.cmd(spi, Command::PARTIAL_OUT)?;
-
-        // Deserves a delay here to prevent screen degradation.
-
         Ok(())
     }
 
     fn display_frame(&mut self, spi: &mut SPI) -> Result<(), SPI::Error> {
         self.interface.cmd(spi, Command::DISPLAY_REFRESH)?;
+
+        if self.refresh == RefreshLUT::QUICK {
+            self.interface.cmd(spi, Command::PARTIAL_OUT)?;
+        }
+
+        // Deserves a delay here to prevent screen degradation.
+
         self.wait_until_idle();
         Ok(())
     }
 
     fn clear_frame(&mut self, spi: &mut SPI) -> Result<(), SPI::Error> {
+        self.set_lut(spi, Some(RefreshLUT::FULL))?;
         let color = self.background_color.get_byte_value();
 
         self.interface.cmd(spi, Command::DISPLAY_START_TRANSMISSION_2)?;
         self.interface.data_x_times(spi, color, WIDTH / 8 * HEIGHT)?;
-
-        self.wait_until_idle();
 
         Ok(())
     }
@@ -244,6 +241,9 @@ where
         }
         match self.refresh {
             RefreshLUT::FULL => {
+                self.interface.cmd_with_data(spi, Command::VCM_DC_SETTING, &[0x08])?;
+                self.interface.cmd_with_data(spi, Command::VCOM_AND_DATA_INTERVAL_SETTING, &[0x97])?;
+
                 self.interface.cmd_with_data(spi, Command::VCOM_LUT, &constants::LUT_VCOM_DC)?;
                 self.interface.cmd_with_data(spi, Command::W2W_LUT, &constants::LUT_WW)?;
                 self.interface.cmd_with_data(spi, Command::B2W_LUT, &constants::LUT_BW)?;
@@ -251,6 +251,9 @@ where
                 self.interface.cmd_with_data(spi, Command::B2B_LUT, &constants::LUT_BB)?;
             },
             RefreshLUT::QUICK => {
+                self.interface.cmd_with_data(spi, Command::VCM_DC_SETTING, &[0x08])?;
+                self.interface.cmd_with_data(spi, Command::VCOM_AND_DATA_INTERVAL_SETTING, &[0x47])?;
+
                 self.interface.cmd_with_data(spi, Command::VCOM_LUT, &constants::LUT_VCOM_DC_PARTIAL)?;
                 self.interface.cmd_with_data(spi, Command::W2W_LUT, &constants::LUT_WW_PARTIAL)?;
                 self.interface.cmd_with_data(spi, Command::B2W_LUT, &constants::LUT_BW_PARTIAL)?;
