@@ -163,7 +163,7 @@ where
     fn update_frame(&mut self, spi: &mut SPI, buffer: &[u8]) -> Result<(), SPI::Error> {
         self.set_lut(spi, Some(RefreshLUT::FULL))?;
         self.interface.cmd(spi, Command::DISPLAY_START_TRANSMISSION_1)?;
-        self.interface.data_x_times(spi, self.background_color.get_byte_value(), WIDTH / 8 * HEIGHT)?;
+        self.interface.data_x_times(spi, self.background_color.into(), WIDTH / 8 * HEIGHT)?;
         self.interface.cmd_with_data(spi, Command::DISPLAY_START_TRANSMISSION_2, buffer)?;
         self.wait_until_idle();
         Ok(())
@@ -215,7 +215,7 @@ where
 
     fn clear_frame(&mut self, spi: &mut SPI) -> Result<(), SPI::Error> {
         self.set_lut(spi, Some(RefreshLUT::FULL))?;
-        let color = self.background_color.get_byte_value();
+        let color = self.background_color.into();
 
         self.interface.cmd(spi, Command::DISPLAY_START_TRANSMISSION_2)?;
         self.interface.data_x_times(spi, color, WIDTH / 8 * HEIGHT)?;

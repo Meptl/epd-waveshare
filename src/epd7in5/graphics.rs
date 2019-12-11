@@ -6,7 +6,7 @@ use embedded_graphics::prelude::*;
 /// Full size buffer for use with the 7in5 EPD
 ///
 /// Can also be manually constructed:
-/// `buffer: [DEFAULT_BACKGROUND_COLOR.get_byte_value(); WIDTH / 8 * HEIGHT]`
+/// `buffer: [DEFAULT_BACKGROUND_COLOR.into(); WIDTH / 8 * HEIGHT]`
 pub struct Display7in5 {
     buffer: [u8; WIDTH as usize * HEIGHT as usize / 8],
     rotation: DisplayRotation,
@@ -15,7 +15,7 @@ pub struct Display7in5 {
 impl Default for Display7in5 {
     fn default() -> Self {
         Display7in5 {
-            buffer: [DEFAULT_BACKGROUND_COLOR.get_byte_value();
+            buffer: [DEFAULT_BACKGROUND_COLOR.into();
                 WIDTH as usize * HEIGHT as usize / 8],
             rotation: DisplayRotation::default(),
         }
@@ -70,7 +70,7 @@ mod tests {
     fn graphics_default() {
         let display = Display7in5::default();
         for &byte in display.buffer() {
-            assert_eq!(byte, epd7in5::DEFAULT_BACKGROUND_COLOR.get_byte_value());
+            assert_eq!(byte, epd7in5::DEFAULT_BACKGROUND_COLOR.into());
         }
     }
 
@@ -85,10 +85,10 @@ mod tests {
 
         let buffer = display.buffer();
 
-        assert_eq!(buffer[0], Color::Black.get_byte_value());
+        assert_eq!(buffer[0], Color::Black.into());
 
         for &byte in buffer.iter().skip(1) {
-            assert_eq!(byte, epd7in5::DEFAULT_BACKGROUND_COLOR.get_byte_value());
+            assert_eq!(byte, epd7in5::DEFAULT_BACKGROUND_COLOR.into());
         }
     }
 
@@ -104,10 +104,10 @@ mod tests {
 
         let buffer = display.buffer();
 
-        assert_eq!(buffer[0], Color::Black.get_byte_value());
+        assert_eq!(buffer[0], Color::Black.into());
 
         for &byte in buffer.iter().skip(1) {
-            assert_eq!(byte, epd7in5::DEFAULT_BACKGROUND_COLOR.get_byte_value());
+            assert_eq!(byte, epd7in5::DEFAULT_BACKGROUND_COLOR.into());
         }
     }
 
@@ -123,10 +123,10 @@ mod tests {
 
         let buffer = display.buffer();
 
-        assert_eq!(buffer[0], Color::Black.get_byte_value());
+        assert_eq!(buffer[0], Color::Black.into());
 
         for &byte in buffer.iter().skip(1) {
-            assert_eq!(byte, epd7in5::DEFAULT_BACKGROUND_COLOR.get_byte_value());
+            assert_eq!(byte, epd7in5::DEFAULT_BACKGROUND_COLOR.into());
         }
     }
 
@@ -142,10 +142,10 @@ mod tests {
 
         let buffer = display.buffer();
 
-        assert_eq!(buffer[0], Color::Black.get_byte_value());
+        assert_eq!(buffer[0], Color::Black.into());
 
         for &byte in buffer.iter().skip(1) {
-            assert_eq!(byte, epd7in5::DEFAULT_BACKGROUND_COLOR.get_byte_value());
+            assert_eq!(byte, epd7in5::DEFAULT_BACKGROUND_COLOR.into());
         }
     }
 }

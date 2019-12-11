@@ -6,7 +6,7 @@ use embedded_graphics::prelude::*;
 /// Full size buffer for use with the 1in54 EPD
 ///
 /// Can also be manuall constructed:
-/// `buffer: [DEFAULT_BACKGROUND_COLOR.get_byte_value(); WIDTH / 8 * HEIGHT]`
+/// `buffer: [DEFAULT_BACKGROUND_COLOR.into(); WIDTH / 8 * HEIGHT]`
 pub struct Display1in54 {
     buffer: [u8; WIDTH as usize * HEIGHT as usize / 8],
     rotation: DisplayRotation,
@@ -15,7 +15,7 @@ pub struct Display1in54 {
 impl Default for Display1in54 {
     fn default() -> Self {
         Display1in54 {
-            buffer: [DEFAULT_BACKGROUND_COLOR.get_byte_value();
+            buffer: [DEFAULT_BACKGROUND_COLOR.into();
                 WIDTH as usize * HEIGHT as usize / 8],
             rotation: DisplayRotation::default(),
         }
@@ -69,7 +69,7 @@ mod tests {
     fn graphics_default() {
         let display = Display1in54::default();
         for &byte in display.buffer() {
-            assert_eq!(byte, DEFAULT_BACKGROUND_COLOR.get_byte_value());
+            assert_eq!(byte, DEFAULT_BACKGROUND_COLOR.into());
         }
     }
 
@@ -84,10 +84,10 @@ mod tests {
 
         let buffer = display.buffer();
 
-        assert_eq!(buffer[0], Color::Black.get_byte_value());
+        assert_eq!(buffer[0], Color::Black.into());
 
         for &byte in buffer.iter().skip(1) {
-            assert_eq!(byte, DEFAULT_BACKGROUND_COLOR.get_byte_value());
+            assert_eq!(byte, DEFAULT_BACKGROUND_COLOR.into());
         }
     }
 
@@ -103,10 +103,10 @@ mod tests {
 
         let buffer = display.buffer();
 
-        assert_eq!(buffer[0], Color::Black.get_byte_value());
+        assert_eq!(buffer[0], Color::Black.into());
 
         for &byte in buffer.iter().skip(1) {
-            assert_eq!(byte, DEFAULT_BACKGROUND_COLOR.get_byte_value());
+            assert_eq!(byte, DEFAULT_BACKGROUND_COLOR.into());
         }
     }
 
@@ -125,10 +125,10 @@ mod tests {
         extern crate std;
         std::println!("{:?}", buffer);
 
-        assert_eq!(buffer[0], Color::Black.get_byte_value());
+        assert_eq!(buffer[0], Color::Black.into());
 
         for &byte in buffer.iter().skip(1) {
-            assert_eq!(byte, DEFAULT_BACKGROUND_COLOR.get_byte_value());
+            assert_eq!(byte, DEFAULT_BACKGROUND_COLOR.into());
         }
     }
 
@@ -147,10 +147,10 @@ mod tests {
         extern crate std;
         std::println!("{:?}", buffer);
 
-        assert_eq!(buffer[0], Color::Black.get_byte_value());
+        assert_eq!(buffer[0], Color::Black.into());
 
         for &byte in buffer.iter().skip(1) {
-            assert_eq!(byte, DEFAULT_BACKGROUND_COLOR.get_byte_value());
+            assert_eq!(byte, DEFAULT_BACKGROUND_COLOR.into());
         }
     }
 }

@@ -6,7 +6,7 @@ use embedded_graphics::prelude::*;
 /// Display with Fullsize buffer for use with the 2in9 EPD
 ///
 /// Can also be manuall constructed:
-/// `buffer: [DEFAULT_BACKGROUND_COLOR.get_byte_value(); WIDTH / 8 * HEIGHT]`
+/// `buffer: [DEFAULT_BACKGROUND_COLOR.into(); WIDTH / 8 * HEIGHT]`
 pub struct Display2in9 {
     buffer: [u8; WIDTH as usize * HEIGHT as usize / 8],
     rotation: DisplayRotation,
@@ -15,7 +15,7 @@ pub struct Display2in9 {
 impl Default for Display2in9 {
     fn default() -> Self {
         Display2in9 {
-            buffer: [DEFAULT_BACKGROUND_COLOR.get_byte_value();
+            buffer: [DEFAULT_BACKGROUND_COLOR.into();
                 WIDTH as usize * HEIGHT as usize / 8],
             rotation: DisplayRotation::default(),
         }
@@ -65,7 +65,7 @@ mod tests {
     fn graphics_default() {
         let display = Display2in9::default();
         for &byte in display.buffer() {
-            assert_eq!(byte, DEFAULT_BACKGROUND_COLOR.get_byte_value());
+            assert_eq!(byte, DEFAULT_BACKGROUND_COLOR.into());
         }
     }
 }

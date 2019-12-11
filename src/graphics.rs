@@ -26,7 +26,7 @@ pub trait Display: Drawing<Color> {
     /// Clears the buffer of the display with the chosen background color
     fn clear_buffer(&mut self, background_color: Color) {
         for elem in self.get_mut_buffer().iter_mut() {
-            *elem = background_color.get_byte_value();
+            *elem = background_color.into();
         }
     }
 

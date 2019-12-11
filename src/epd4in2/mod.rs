@@ -207,7 +207,7 @@ where
     }
 
     fn update_frame(&mut self, spi: &mut SPI, buffer: &[u8]) -> Result<(), SPI::Error> {
-        let color_value = self.color.get_byte_value();
+        let color_value = self.color.into();
 
         self.send_resolution(spi)?;
 
@@ -287,7 +287,7 @@ where
     fn clear_frame(&mut self, spi: &mut SPI) -> Result<(), SPI::Error> {
         self.send_resolution(spi)?;
 
-        let color_value = self.color.get_byte_value();
+        let color_value = self.color.into();
 
         self.interface
             .cmd(spi, Command::DATA_START_TRANSMISSION_1)?;

@@ -234,7 +234,7 @@ where
         self.use_full_frame(spi)?;
 
         // clear the ram with the background color
-        let color = self.background_color.get_byte_value();
+        let color = self.background_color.into();
 
         self.interface.cmd(spi, Command::WRITE_RAM)?;
         self.interface
